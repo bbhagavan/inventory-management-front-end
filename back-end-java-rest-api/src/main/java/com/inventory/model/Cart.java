@@ -10,6 +10,13 @@ public class Cart {
 	private String pid;
 	private int count;
 	
+	public Cart() {}
+	
+	public Cart(String pid, int count) {
+		this.pid = pid;
+		this.count = count;
+	}
+	
 	public String getPid() {
 		return pid;
 	}

@@ -1,6 +1,8 @@
 package com.inventory.model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -12,13 +14,13 @@ public class Order {
 	@Id
 	private int id;
 	@Convert(converter = ListConverter.class)
-	private List<String> items;
+	private WrapperItems items;
 	private String address;
 	private String status;
 	
 	public Order() {}
 	
-	public Order(int id, List<String> items, String address, String status) {
+	public Order(int id, WrapperItems items, String address, String status) {
 		super();
 		this.id = id;
 		this.items = items;
@@ -31,11 +33,14 @@ public class Order {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public List<String> getItems() {
+	public WrapperItems getItems() {
 		return items;
 	}
-	public void setItems(List<String> items) {
+	public void setItems(WrapperItems items) {
+		
 		this.items = items;
+
+		System.out.println("List");
 	}
 	public String getAddress() {
 		return address;

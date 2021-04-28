@@ -1,4 +1,3 @@
-import "./App.css";
 import styled from "styled-components";
 import Home from "./components/Home";
 import { Container } from "react-bootstrap";
@@ -16,6 +15,7 @@ import Services from "./components/Services";
 
 function App() {
     const dispatch = useDispatch();
+
     useEffect(() => {
         getProductsOfCart();
         getProducts();

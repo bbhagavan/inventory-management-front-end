@@ -1,11 +1,15 @@
+import { postProductIntoCart } from "../database-management/post-data";
+
 export function reducer(state = {}, action) {
     switch (action.type) {
         case "ADD-PRODUCTS":
             return { ...state, products: action.payload };
+
         case "ADD-CART":
             return { ...state, cartItems: action.payload };
+
         case "ADD-ITEM-CART":
-            console.log(action.payload);
+            postProductIntoCart(action.payload);
             let flag = 0;
             let result = {
                 ...state,
@@ -28,6 +32,7 @@ export function reducer(state = {}, action) {
                 ...state,
                 cartItems: state.cartItems.filter((item) => item.item.pid != action.payload.pid),
             };
+
         case "ADD-COUNT":
             return {
                 ...state,
@@ -36,6 +41,7 @@ export function reducer(state = {}, action) {
                     else return item;
                 }),
             };
+
         case "SUB-COUNT":
             return {
                 ...state,
@@ -44,11 +50,20 @@ export function reducer(state = {}, action) {
                     else return item;
                 }),
             };
+
         case "ADD-ORDERS-LIST":
             return {
                 ...state,
                 orders: action.payload,
             };
+
+        case "CHECK-OUT":
+            return {
+                ...state,
+                orders: [...state.orders, action.payload],
+                cartItems: [],
+            };
+
         default:
             return state;
     }

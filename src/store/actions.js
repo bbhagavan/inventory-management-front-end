@@ -25,3 +25,7 @@ export function decreaseCount(id) {
 export function createOrdersList(orders) {
     return { type: "ADD-ORDERS-LIST", payload: orders };
 }
+
+export function createCheckOut(order) {
+    return { type: "CHECK-OUT", payload: order };
+}

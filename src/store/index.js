@@ -1,4 +1,4 @@
 import { createStore, combineReducers } from "redux";
 import { reducer } from "./reducer";
 
-export const store = createStore(reducer, { cartItems: [] });
+export const store = createStore(reducer, { cartItems: [], products: [] });

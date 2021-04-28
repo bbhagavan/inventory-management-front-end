@@ -1,15 +1,14 @@
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import {
-    addCount,
-    decreaseCount,
-    increamentItemsInCount,
-    createRemoveCart,
-} from "../store/actions";
+import { addCount, decreaseCount, createRemoveCart } from "../store/actions";
 import { useState } from "react";
+import CheckOut from "./CheckPage";
+import { Link } from "react-router-dom";
+import { removeCartItemInDB } from "../database-management/post-data";
 
 export default function Cart() {
     let items = useSelector((state) => state.cartItems);
+    const [address, setAddress] = useState("");
     const dispatch = useDispatch();
 
     return (
@@ -47,6 +46,7 @@ export default function Cart() {
                                 <Button
                                     onClick={() => {
                                         dispatch(createRemoveCart(item.item.pid));
+                                        removeCartItemInDB(item.item.pid);
                                     }}
                                 >
                                     Remove from cart
@@ -56,7 +56,17 @@ export default function Cart() {
                     );
                 })}
             </Row>
-            <Button className="w-50">Check out</Button>
+            {items.length != 0 ? (
+                <CheckOut address={address} setAddress={setAddress} items={items} />
+            ) : (
+                <div>
+                    NO items in cart
+                    <br />
+                    <Link to={"/products"}>
+                        <Button>See products</Button>
+                    </Link>
+                </div>
+            )}
         </Container>
     );
 }

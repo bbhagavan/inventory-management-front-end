@@ -2,16 +2,20 @@ package com.inventory.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Converter
-public class ListConverter implements AttributeConverter<List<String>, String> {
+public class ListConverter implements AttributeConverter<WrapperItems, String> {
 
 	  private static ObjectMapper mapper;
 
@@ -20,7 +24,7 @@ public class ListConverter implements AttributeConverter<List<String>, String> {
 	  }
 
 	  @Override
-	  public String convertToDatabaseColumn(List<String> data) {
+	  public String convertToDatabaseColumn(WrapperItems data) {
 	    if (null == data) { 
 	      // You may return null if you prefer that style
 	      return "[]";
@@ -35,14 +39,14 @@ public class ListConverter implements AttributeConverter<List<String>, String> {
 	  }
 
 	  @Override
-	  public List<String> convertToEntityAttribute(String s) {
+	  public  WrapperItems convertToEntityAttribute(String s) {
 	    if (null == s) {
 	      // You may return null if you prefer that style
-	      return new ArrayList<>();
+	      return new WrapperItems();
 	    }
 
 	    try {
-	      return mapper.readValue(s, new TypeReference<List<String>>() {});
+	      return mapper.readValue(s, new TypeReference<WrapperItems>() {});
 	      
 	    } catch (IOException e) {
 	      throw new IllegalArgumentException("Error converting JSON to map", e);
