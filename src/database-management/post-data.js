@@ -2,8 +2,11 @@ import axios from "axios";
 
 export function postOrderInDB(order) {
     axios
-        .post("http://localhost:8000/orders", JSON.stringify(order), {
-            headers: { "content-type": "application/json" },
+        .post("orders", JSON.stringify(order), {
+            headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+            },
         })
         .then((res) => {
             console.log(res.data);
@@ -12,8 +15,11 @@ export function postOrderInDB(order) {
 
 export function postProductIntoCart(product) {
     axios
-        .post("http://localhost:8000/cart", JSON.stringify(product), {
-            headers: { "content-type": "application/json" },
+        .post("cart", JSON.stringify(product), {
+            headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+            },
         })
         .then((res) => {
             console.log(res.data);
@@ -21,13 +27,25 @@ export function postProductIntoCart(product) {
 }
 
 export function removeCartItemInDB(id) {
-    axios.delete("http://localhost:8000/cart/" + id).then((res) => {
-        console.log(res.data);
-    });
+    axios
+        .delete("cart/" + id, {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+        })
+        .then((res) => {
+            console.log(res.data);
+        });
 }
 
 export function deleteCartInDB() {
-    axios.delete("http://localhost:8000/cart").then((res) => {
-        console.log(res.data);
-    });
+    axios
+        .delete("cart", {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+        })
+        .then((res) => {
+            console.log(res.data);
+        });
 }

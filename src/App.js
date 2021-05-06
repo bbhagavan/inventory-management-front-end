@@ -9,36 +9,21 @@ import Orders from "./components/Orders";
 import Cart from "./components/Cart";
 import { useEffect } from "react";
 import axios from "axios";
-import { createInitialAdd, createCart, createOrdersList } from "./store/actions";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Services from "./components/Services";
+import LoginPage from "./components/LoginPage";
+import { getUserData, getProducts } from "./store/actions";
+
+axios.defaults.baseURL = "http://localhost:8000/";
 
 function App() {
     const dispatch = useDispatch();
+    let user = useSelector((state) => state.user);
 
     useEffect(() => {
-        getProductsOfCart();
-        getProducts();
-        getOrders();
-    }, []);
-
-    const getProductsOfCart = () => {
-        axios.get("http://localhost:8000/cart").then((respose) => {
-            dispatch(createCart(respose.data));
-        });
-    };
-
-    const getProducts = () => {
-        axios.get("http://localhost:8000/products").then((respose) => {
-            dispatch(createInitialAdd(respose.data));
-        });
-    };
-
-    const getOrders = () => {
-        axios.get("http://localhost:8000/orders").then((respose) => {
-            dispatch(createOrdersList(respose.data));
-        });
-    };
+        dispatch(getProducts());
+        dispatch(getUserData());
+    }, [user]);
 
     return (
         <Router>
@@ -47,10 +32,17 @@ function App() {
                 <Container>
                     <Switch>
                         <Route path="/" exact component={Home} />
+                        <Route path="/login" exact component={LoginPage} />
                         <Route path="/services" exact component={Services} />
                         <Route path="/products" exact component={Products} />
-                        <Route path="/orders" exact component={Orders} />
-                        <Route path="/cart" exact component={Cart} />
+                        {localStorage.getItem("token") ? (
+                            <>
+                                <Route path="/orders" exact component={Orders} />
+                                <Route path="/cart" exact component={Cart} />
+                            </>
+                        ) : (
+                            <h3>Need to login first</h3>
+                        )}
                     </Switch>
                 </Container>
                 <Footer />

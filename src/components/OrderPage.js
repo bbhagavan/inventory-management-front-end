@@ -1,5 +1,5 @@
-import { Col, Button, Card, Alert } from "react-bootstrap";
-import { useState, useEffect, Component } from "react";
+import { Col, Card } from "react-bootstrap";
+import { Component } from "react";
 import axios from "axios";
 import OrderDetailsView from "./OrderDetailsView";
 
@@ -9,6 +9,7 @@ export default class OrderPage extends Component {
         this.item = props.item;
         this.state = { details: [], cost: 0 };
     }
+
     componentDidMount() {
         axios.get("http://localhost:8000/ordersdetails/" + this.item.id).then((respose) => {
             let cost = 0;
@@ -25,7 +26,7 @@ export default class OrderPage extends Component {
 
     render() {
         return (
-            <Col>
+            <Col sm={6} md={4} lg={3}>
                 <Card className="mx-2 p-1">
                     <Card.Title>Order #{this.item.id}</Card.Title>
                     <Card.Text className="text-dark">

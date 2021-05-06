@@ -1,7 +1,11 @@
 import { postProductIntoCart } from "../database-management/post-data";
 
-export function reducer(state = {}, action) {
+export function reducer(state, action) {
     switch (action.type) {
+        case "ADD-USER":
+            return { ...state, user: action.payload };
+        case "LOG-OUT":
+            return {  };
         case "ADD-PRODUCTS":
             return { ...state, products: action.payload };
 
