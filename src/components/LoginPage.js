@@ -27,7 +27,7 @@ export default function LoginPage() {
                     <Form.Control
                         type="text"
                         placeholder="Enter your username.."
-                        onChange={(e) => {
+                        onChange={function (e) {
                             credentials.username = e.target.value;
                         }}
                     />
@@ -37,7 +37,7 @@ export default function LoginPage() {
                     <Form.Control
                         type="password"
                         placeholder="Enter your password.."
-                        onChange={(e) => {
+                        onChange={function (e) {
                             credentials.password = e.target.value;
                         }}
                     />
@@ -45,9 +45,9 @@ export default function LoginPage() {
                 <Button
                     variant="primary"
                     type="submit"
-                    onClick={(e) => {
+                    onClick={function (e) {
                         e.preventDefault();
-                        getUser(e);
+                        getUser();
                     }}
                 >
                     Login

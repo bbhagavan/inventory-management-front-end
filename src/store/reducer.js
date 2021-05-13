@@ -4,8 +4,10 @@ export function reducer(state, action) {
     switch (action.type) {
         case "ADD-USER":
             return { ...state, user: action.payload };
+
         case "LOG-OUT":
-            return {  };
+            return { products: [], cartItems: [], orders: [] };
+
         case "ADD-PRODUCTS":
             return { ...state, products: action.payload };
 
@@ -18,7 +20,7 @@ export function reducer(state, action) {
             let result = {
                 ...state,
                 cartItems: state.cartItems.map((item) => {
-                    if (item.item.pid === action.payload.pid) {
+                    if (item.pid === action.payload.pid) {
                         flag = 1;
                         return { ...item, count: item.count + 1 };
                     }
@@ -34,14 +36,14 @@ export function reducer(state, action) {
         case "REMOVE-ITEM-CART":
             return {
                 ...state,
-                cartItems: state.cartItems.filter((item) => item.item.pid != action.payload.pid),
+                cartItems: state.cartItems.filter((item) => item.pid != action.payload.pid),
             };
 
         case "ADD-COUNT":
             return {
                 ...state,
                 cartItems: state.cartItems.map((item) => {
-                    if (item.item.pid == action.payload) return { ...item, count: item.count + 1 };
+                    if (item.pid == action.payload) return { ...item, count: item.count + 1 };
                     else return item;
                 }),
             };
@@ -50,7 +52,7 @@ export function reducer(state, action) {
             return {
                 ...state,
                 cartItems: state.cartItems.map((item) => {
-                    if (item.item.pid === action.payload) return { ...item, count: item.count - 1 };
+                    if (item.pid === action.payload) return { ...item, count: item.count - 1 };
                     else return item;
                 }),
             };

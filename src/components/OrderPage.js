@@ -14,7 +14,7 @@ export default class OrderPage extends Component {
         axios.get("http://localhost:8000/ordersdetails/" + this.item.id).then((respose) => {
             let cost = 0;
             respose.data.map((prod) => {
-                cost += prod.item.price * prod.count;
+                cost += prod.price * prod.count;
             });
             this.setState((state) => ({
                 ...state,

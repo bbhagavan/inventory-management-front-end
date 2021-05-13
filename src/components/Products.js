@@ -13,7 +13,7 @@ export default function Products() {
                     <Col sm={6} md={4} lg={3} key={item.pid}>
                         <Card border className="my-2 p-1">
                             <Card.Title>{item.name}</Card.Title>
-                            <Card.Text className="my-auto">{item.desc}</Card.Text>
+                            <Card.Text className="my-auto">{item.description}</Card.Text>
                             <Button variant="outline-primary" disabled>
                                 Rs.{item.price}
                             </Button>

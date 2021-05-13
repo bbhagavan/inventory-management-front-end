@@ -8,11 +8,16 @@ import { createLogout } from "../store/actions";
 
 export default function NavigationBar() {
     let count = useSelector((state) => state.cartItems.length);
-    let user = useSelector((state) => state.user);
+    let token = localStorage.getItem("token");
     const dispatch = useDispatch();
     let buttons;
 
-    if (user) {
+    let logout = function () {
+        dispatch(createLogout());
+        localStorage.clear();
+    };
+
+    if (token) {
         buttons = (
             <>
                 <Nav className="m-auto">
@@ -26,14 +31,7 @@ export default function NavigationBar() {
                         <MenuItem>Orders</MenuItem>
                     </Link>
                 </Nav>
-                <Link
-                    to={"/"}
-                    className="mr-5"
-                    onClick={() => {
-                        dispatch(createLogout());
-                        localStorage.clear();
-                    }}
-                >
+                <Link to={"/"} className="mr-5" onClick={logout}>
                     <MenuItem>Log out</MenuItem>
                 </Link>
                 <Link to={"/cart"}>
@@ -46,9 +44,16 @@ export default function NavigationBar() {
         );
     } else {
         buttons = (
-            <Link to={"/login"}>
-                <MenuItem>Sign in</MenuItem>
-            </Link>
+            <>
+                <Nav className="m-auto">
+                    <Link to={"/services"}>
+                        <MenuItem>Services</MenuItem>
+                    </Link>
+                </Nav>
+                <Link to={"/login"}>
+                    <MenuItem>Sign in</MenuItem>
+                </Link>
+            </>
         );
     }
     return (

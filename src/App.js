@@ -22,6 +22,9 @@ function App() {
 
     useEffect(() => {
         dispatch(getProducts());
+    }, []);
+
+    useEffect(() => {
         dispatch(getUserData());
     }, [user]);
 

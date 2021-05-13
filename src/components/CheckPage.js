@@ -40,12 +40,12 @@ export default function CheckOut(props) {
                     </Button>
                     <Button
                         variant="primary"
-                        onClick={() => {
+                        onClick={function () {
                             let order = {
                                 id: orderId + 1001,
                                 items: {
                                     products: items.map((item) => ({
-                                        pid: item.item.pid,
+                                        pid: item.pid,
                                         count: item.count,
                                     })),
                                 },

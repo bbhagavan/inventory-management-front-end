@@ -22,9 +22,9 @@ export default function OrderDetailsView(props) {
                 <Modal.Body>
                     {details.map((item) => {
                         return (
-                            <p key={item.item.pid}>
-                                Item: {item.item.name} ( Rs.{item.item.price} ) * {item.count} = Rs.
-                                {item.item.price * item.count}
+                            <p key={item.pid}>
+                                Item: {item.name} ( Rs.{item.price} ) * {item.count} = Rs.
+                                {item.price * item.count}
                             </p>
                         );
                     })}

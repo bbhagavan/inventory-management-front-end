@@ -43,13 +43,9 @@ export function createLogout() {
 export function getProducts() {
     //For products
     return function (dispatch) {
-        axios
-            .get("products", {
-                headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-            })
-            .then((respose) => {
-                dispatch(createInitialAdd(respose.data));
-            });
+        axios.get("products").then((respose) => {
+            dispatch(createInitialAdd(respose.data));
+        });
     };
 }
 

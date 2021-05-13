@@ -1,15 +1,13 @@
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useState } from "react";
 import CheckOut from "./CheckPage";
 import { Link } from "react-router-dom";
-import { removeCartItemInDB } from "../database-management/post-data";
 import CartItem from "./CartItem";
 
 export default function Cart() {
     let items = useSelector((state) => state.cartItems);
     const [address, setAddress] = useState("");
-    const dispatch = useDispatch();
 
     return (
         <Container className="mt-1 mb-5">
@@ -17,7 +15,7 @@ export default function Cart() {
             <Row>
                 {items.map((item) => {
                     return (
-                        <Col sm={6} md={4} lg={3} key={item.item.pid}>
+                        <Col sm={6} md={4} lg={3} key={item.pid}>
                             <CartItem product={item} />
                         </Col>
                     );

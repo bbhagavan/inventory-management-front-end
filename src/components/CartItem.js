@@ -2,6 +2,7 @@ import { Button, Card } from "react-bootstrap";
 import { decreaseCount, addCount, createRemoveCart } from "../store/actions";
 import { useDispatch } from "react-redux";
 import { removeCartItemInDB } from "../database-management/post-data";
+import { useState } from "react";
 
 export default function CartItem(props) {
     let { product } = props;
@@ -9,12 +10,12 @@ export default function CartItem(props) {
 
     return (
         <Card border className="my-2 p-1">
-            <Card.Title>{product.item.name}</Card.Title>
-            <Card.Text className="my-auto">{product.item.desc}</Card.Text>
+            <Card.Title>{product.name}</Card.Title>
+            <Card.Text className="my-auto">{product.description}</Card.Text>
             <div className="d-flex justify-content-center">
                 <Button
-                    onClick={() => {
-                        dispatch(decreaseCount(product.item.pid));
+                    onClick={function () {
+                        dispatch(decreaseCount(product.pid));
                     }}
                 >
                     -
@@ -23,20 +24,20 @@ export default function CartItem(props) {
                     {product.count}
                 </Button>
                 <Button
-                    onClick={() => {
-                        dispatch(addCount(product.item.pid));
+                    onClick={function () {
+                        dispatch(addCount(product.pid));
                     }}
                 >
                     +
                 </Button>
             </div>
             <Button disabled variant="outline-info">
-                Rs.{product.item.price * product.count}
+                Rs.{product.price * product.count}
             </Button>
             <Button
-                onClick={() => {
-                    dispatch(createRemoveCart(product.item.pid));
-                    removeCartItemInDB(product.item.pid);
+                onClick={function () {
+                    dispatch(createRemoveCart(product.pid));
+                    removeCartItemInDB(product.pid);
                 }}
             >
                 Remove from cart
