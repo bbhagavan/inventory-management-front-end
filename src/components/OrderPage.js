@@ -2,6 +2,7 @@ import { Col, Card } from "react-bootstrap";
 import { Component } from "react";
 import axios from "axios";
 import OrderDetailsView from "./OrderDetailsView";
+import NumberFormat from "react-number-format";
 
 export default class OrderPage extends Component {
     constructor(props) {
@@ -35,7 +36,15 @@ export default class OrderPage extends Component {
                         Address: {this.order.address}
                     </Card.Text>
                     <hr />
-                    <h3>Rs. {this.state.cost}</h3>
+                    <h3>
+                        <NumberFormat
+                            displayType="text"
+                            thousandSeparator={true}
+                            thousandsGroupStyle="lakh"
+                            prefix={"₹"}
+                            value={this.state.cost}
+                        />{" "}
+                    </h3>
                     <OrderDetailsView details={this.state.details} cost={this.state.cost} />
                 </Card>
             </Col>

@@ -1,6 +1,7 @@
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { createAddCart } from "../store/actions";
+import NumberFormat from "react-number-format";
 
 export default function Products() {
     let items = useSelector((state) => state.products);
@@ -18,16 +19,31 @@ export default function Products() {
                                 {item.discount ? (
                                     <>
                                         <h3 className="my-auto">
-                                            Rs.{Math.round(item.price * (1 - item.discount / 100))}
+                                            <NumberFormat
+                                                displayType="text"
+                                                thousandSeparator={true}
+                                                thousandsGroupStyle="lakh"
+                                                prefix={"₹"}
+                                                value={Math.round(
+                                                    item.price * (1 - item.discount / 100)
+                                                )}
+                                            />
                                         </h3>
                                         <div>
                                             <strike className="my-auto" style={{ color: "#aaa" }}>
-                                                Rs.{item.price}
+                                                <NumberFormat
+                                                    displayType="text"
+                                                    thousandSeparator={true}
+                                                    thousandsGroupStyle="lakh"
+                                                    prefix={"₹"}
+                                                    value={item.price}
+                                                />
                                             </strike>
                                             <p
-                                                className="ml-2 px-1 my-auto bg-success text-white"
+                                                className=" px-1 my-auto bg-success text-white"
                                                 style={{
                                                     "border-radius": "5px",
+                                                    "font-size": "14px",
                                                 }}
                                             >
                                                 {item.discount}% OFF
@@ -36,7 +52,15 @@ export default function Products() {
                                     </>
                                 ) : (
                                     <>
-                                        <h3 className=" mb-0">Rs.{item.price}</h3>
+                                        <h3 className=" mb-0">
+                                            <NumberFormat
+                                                displayType="text"
+                                                thousandSeparator={true}
+                                                thousandsGroupStyle="lakh"
+                                                prefix={"₹"}
+                                                value={item.price}
+                                            />
+                                        </h3>
                                     </>
                                 )}
                             </div>

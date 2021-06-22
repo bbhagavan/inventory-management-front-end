@@ -7,7 +7,7 @@ import { postOrderInDB, deleteCartInDB } from "../database-management/post-data"
 export default function CheckOut(props) {
     const [show, setShow] = useState(false);
     const { address, setAddress, items } = props;
-    let orderId = useSelector((state) => state.orders.length);
+    let orderId = useSelector((state) => state.orders?.length);
     const dispatch = useDispatch();
 
     const handleClose = () => setShow(false);

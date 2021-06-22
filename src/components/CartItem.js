@@ -2,6 +2,7 @@ import { Button, Card } from "react-bootstrap";
 import { decreaseCount, addCount, createRemoveCart } from "../store/actions";
 import { useDispatch } from "react-redux";
 import { removeCartItemInDB } from "../database-management/post-data";
+import NumberFormat from "react-number-format";
 
 export default function CartItem(props) {
     let { product } = props;
@@ -32,9 +33,16 @@ export default function CartItem(props) {
                     +
                 </Button>
             </div>
-            <Button disabled variant="outline-info">
-                Rs.{Math.round(product.price * (1 - product.discount / 100)) * product.count}
-            </Button>
+            <hr className="mt-1" />
+            <h5>
+                <NumberFormat
+                    displayType="text"
+                    thousandSeparator={true}
+                    thousandsGroupStyle="lakh"
+                    prefix={"₹"}
+                    value={Math.round(product.price * (1 - product.discount / 100)) * product.count}
+                />
+            </h5>
             <Button
                 onClick={function () {
                     dispatch(createRemoveCart(product.pid));

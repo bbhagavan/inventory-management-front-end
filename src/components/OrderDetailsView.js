@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
+import NumberFormat from "react-number-format";
 
 export default function OrderDetailsView(props) {
     const [show, setShow] = useState(false);
-
     let { details, cost } = props;
     const toggle = () => setShow(!show);
 
@@ -22,9 +22,22 @@ export default function OrderDetailsView(props) {
                         let discountPrice = Math.round(item.price * (1 - item.discount / 100));
                         return (
                             <p key={item.pid}>
-                                Item: {item.name} ( Rs.
-                                {discountPrice} ) * {item.count} = Rs.
-                                {discountPrice * item.count}
+                                Item: {item.name} ({" "}
+                                <NumberFormat
+                                    displayType="text"
+                                    thousandSeparator={true}
+                                    thousandsGroupStyle="lakh"
+                                    prefix={"₹"}
+                                    value={discountPrice}
+                                />
+                                ) * {item.count} ={" "}
+                                <NumberFormat
+                                    displayType="text"
+                                    thousandSeparator={true}
+                                    thousandsGroupStyle="lakh"
+                                    prefix={"₹"}
+                                    value={discountPrice * item.count}
+                                />
                             </p>
                         );
                     })}
