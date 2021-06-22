@@ -15,9 +15,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.inventory.JwtUtil;
-import com.inventory.MyUserDetailsService;
-import com.sun.net.httpserver.Filter.Chain;
+import com.inventory.dao.MyUserDetailsService;
+import com.inventory.security.JwtUtil;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {

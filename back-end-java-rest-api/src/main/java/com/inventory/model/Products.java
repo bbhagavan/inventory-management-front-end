@@ -9,17 +9,26 @@ public class Products {
 	@Id
 	private String pid;
 	private String name;
-	private String desc;
+	private String description;
 	private int price;
+	private int discount;
 		
+	public int getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
+
 	public Products() {
 		
 	}
 	
-	public Products(String pid, String name, String desc, int price, int count) {
+	public Products(String pid, String name, String description, int price, int count) {
 		this.pid = pid;
 		this.name = name;
-		this.desc = desc;
+		this.description = description;
 		this.price = price;
 	}
 	
@@ -35,11 +44,11 @@ public class Products {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getDesc() {
-		return desc;
+	public String getDescription() {
+		return description;
 	}
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public int getPrice() {
 		return price;

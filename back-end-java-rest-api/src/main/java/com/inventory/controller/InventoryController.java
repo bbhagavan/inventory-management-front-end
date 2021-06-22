@@ -21,15 +21,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.inventory.JwtUtil;
-import com.inventory.MyUserDetailsService;
 import com.inventory.dao.DatabaseService;
+import com.inventory.dao.MyUserDetailsService;
 import com.inventory.model.AuthenticationRequest;
 import com.inventory.model.AuthenticationResponse;
 import com.inventory.model.CartItem;
 import com.inventory.model.MyUserDetails;
 import com.inventory.model.Order;
 import com.inventory.model.Products;
+import com.inventory.model.WholeOrder;
+import com.inventory.security.JwtUtil;
 
 @RestController
 @CrossOrigin(origins="http://localhost:3000")
@@ -51,8 +52,7 @@ public class InventoryController {
 	}
 	
 	@PostMapping("/orders")
-	public String postOrders(@RequestBody Order order) {
-				
+	public String postOrders(@RequestBody WholeOrder order) {
 		return service.postOrder(order);
 	}
 	

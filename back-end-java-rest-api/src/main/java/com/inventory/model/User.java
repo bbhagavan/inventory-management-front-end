@@ -3,13 +3,7 @@ package com.inventory.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import com.inventory.dao.DatabaseService;
 import com.sun.istack.NotNull;
 
 @Entity

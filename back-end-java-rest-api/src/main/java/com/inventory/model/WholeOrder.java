@@ -1,24 +1,26 @@
 package com.inventory.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import java.util.List;
 
-@Entity(name="orders")
-public class Order {
+public class WholeOrder {
 
-	@Id
 	private int id;
 	private String address;
 	private String status;
+	private List<Cart> products;
 	
-	public Order() {}
 	
-	public Order(int id, String address, String status) {
+	public WholeOrder() {
+	}
+
+	public WholeOrder(int id, String address, String status, List<Cart> products) {
 		super();
 		this.id = id;
 		this.address = address;
 		this.status = status;
+		this.products = products;
 	}
+	
 	public int getId() {
 		return id;
 	}
@@ -36,5 +38,15 @@ public class Order {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public List<Cart> getProducts() {
+		return products;
+	}
+	public void setProducts(List<Cart> products) {
+		this.products = products;
+	}
+	public String toString() {
+		return "Whole order with order id: "+getId()+", address: "+getAddress()
+			+", products: "+ getProducts();
 	}
 }

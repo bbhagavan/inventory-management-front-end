@@ -1,33 +1,38 @@
 package com.inventory.dao;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.inventory.model.Cart;
 import com.inventory.model.CartItem;
 import com.inventory.model.Order;
+import com.inventory.model.OrderProductMap;
 import com.inventory.model.Products;
+import com.inventory.model.WholeOrder;
 
 @Service
 public class DatabaseService {
 	@Autowired
-	public RepoForProducts repo;
+	private RepoForProducts repo;
 	@Autowired
-	public RepoForCart cartRepo;
+	private RepoForCart cartRepo;
 	@Autowired
-	public RepoForOrder orderRepo;
+	private RepoForOrder orderRepo;
 	@Autowired
-	public UserRepository userRepo;
+	private RepoForMapping mapRepo;
 	@Autowired
-	public UserRolesRepository roleRepo;
+	private JdbcTemplate template;
 	
 	public List<Products> getProducts() {
 		
@@ -39,59 +44,45 @@ public class DatabaseService {
 		return (List<Order>) orderRepo.findAll();
 	}
 	
-	public String postOrder(Order order) {
+	public String postOrder(WholeOrder order) {
 		
-		Order result = orderRepo.save(order);
+		orderRepo.save(new Order(order.getId(), order.getAddress(), order.getStatus()));
+		
+		order.getProducts().stream()
+		.forEach((Cart item) -> {
+			mapRepo.saveProduct(order.getId(), item.getProduct_id(), item.getCount());
+		});
 				
-		if(result==order)
-			return "Success";
-		return "Faild";
+		return "Success";
 	}
 	
 	public List<CartItem> getOrderDetails(int id) {
-		
-		Order order = orderRepo.findById(id).orElse(new Order());
-				 
-		 return (List<CartItem>) order.getItems().getProducts()
-				 .stream()
-				 .map((Cart item) -> {
-					 return  new CartItem(
-							 repo.findById(item.getPid()).orElse(new Products()),
-							 	item.getCount()
-							 );
-					 }).collect(Collectors.toList());
-			
+						 
+		return template.query("select pid, name, description,price, discount, count from "
+				+ "(SELECT product, count FROM order_product_map where order_id="+id+") as temp "
+				+ " inner join products where temp.product=products.pid;",
+				new BeanPropertyRowMapper<CartItem>(CartItem.class)
+			); 			
 	}
 	
 	public List<CartItem> getCart() {
 		
-		List<Cart> items = new ArrayList<Cart>();
-		items =(List<Cart>) cartRepo.findAll();
-				
-		return (List<CartItem>) items.stream()
-				  .map(item -> {  
-					  Products prod = repo.findById(item.getPid()).orElse(new Products());
-					  return new CartItem(prod, item.getCount());
-				  }).collect(Collectors.toList());
+		return template.query("select products.pid, name, description,price, count from "
+				+ "	(SELECT * FROM cart) as temp "
+				+ "inner join products where temp.product_id=products.pid;",
+				new BeanPropertyRowMapper<CartItem>(CartItem.class)
+			);
 	}	
 	
 	public String postIntoCart(Products item) {
 		
-		Cart result = cartRepo.findById(item.getPid()).orElse(new Cart());
-		
-		if( result!= null) {
-			
-			cartRepo.save(new Cart(item.getPid(),result.getCount()+1));
-			return "updated";
-		}
-		
-		cartRepo.save(new Cart(item.getPid(),1));
+		template.update("INSERT INTO cart VALUES (?,1) ON DUPLICATE KEY UPDATE count=count+1",
+				item.getPid());
 		return "success";
 	}
 	
 	public String deleteCartItems() {
-		
-		cartRepo.deleteAll();
+		cartRepo.deleteTableContent();
 		return "Deleted";	
 	}
 	
@@ -101,27 +92,27 @@ public class DatabaseService {
 		return "Deleted";	
 	}
 
-//	public String addRoles() {
-//		roleRepo.save(new Role("Ram", "ADMIN"));
-//		userRepo.save(new User());
-//		return "Done";
-//	}
-//	public Role findRole(long id) {
-//		return roleRepo.findById(id).orElse(new Role());
-//	}
 }
 
 
 interface RepoForProducts extends CrudRepository<Products, String>{
-	@Query("from products")
-	
-	
+	@Query(value="select * from products", nativeQuery = true)
+	public List<Products> getProducts();	
 }
 
 interface RepoForCart extends JpaRepository<Cart, String>{
-
+	@Modifying
+	@Query(value="truncate table inventory.cart", nativeQuery = true)
+	@Transactional
+	public void deleteTableContent();
+	
 }
-
+interface RepoForMapping extends CrudRepository<OrderProductMap, Integer>{
+	@Modifying
+	@Query(value="insert into inventory.order_product_map values(:orderId, :product, :count)", nativeQuery = true)
+	@Transactional
+	public int saveProduct(@Param("orderId") int orderId, @Param("product") String product, @Param("count") int count);
+}
 interface RepoForOrder extends CrudRepository<Order, Integer>{
 	
 }
