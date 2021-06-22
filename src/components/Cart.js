@@ -1,4 +1,4 @@
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import CheckOut from "./CheckPage";
@@ -15,13 +15,13 @@ export default function Cart() {
             <Row>
                 {items.map((item) => {
                     return (
-                        <Col sm={6} md={4} lg={3} key={item.pid}>
+                        <Col sm={6} md={4} lg={3} key={item.pid} className="py-2">
                             <CartItem product={item} />
                         </Col>
                     );
                 })}
             </Row>
-            {items.length != 0 ? (
+            {items.length !== 0 ? (
                 <CheckOut address={address} setAddress={setAddress} items={items} />
             ) : (
                 <div>

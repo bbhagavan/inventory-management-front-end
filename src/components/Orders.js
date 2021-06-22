@@ -8,7 +8,7 @@ export default function Orders() {
     return (
         <Container className="mt-1 mb-5">
             <Row>
-                {orderData && orderData.map((item) => <OrderPage key={item.id} item={item} />)}
+                {orderData && orderData.map((order) => <OrderPage key={order.id} order={order} />)}
             </Row>
         </Container>
     );

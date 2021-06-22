@@ -2,28 +2,29 @@ import { Button, Card } from "react-bootstrap";
 import { decreaseCount, addCount, createRemoveCart } from "../store/actions";
 import { useDispatch } from "react-redux";
 import { removeCartItemInDB } from "../database-management/post-data";
-import { useState } from "react";
 
 export default function CartItem(props) {
     let { product } = props;
     const dispatch = useDispatch();
 
     return (
-        <Card border className="my-2 p-1">
+        <Card border className="h-100 p-1">
             <Card.Title>{product.name}</Card.Title>
             <Card.Text className="my-auto">{product.description}</Card.Text>
-            <div className="d-flex justify-content-center">
+            <div className="d-flex mx-auto w-25 mt-3 justify-content-around">
                 <Button
                     onClick={function () {
                         dispatch(decreaseCount(product.pid));
                     }}
+                    className="py-0 px-1"
                 >
                     -
                 </Button>
-                <Button variant="outline-primary" disabled>
+                <Button className="py-0 px-1" variant="outline-primary" disabled>
                     {product.count}
                 </Button>
                 <Button
+                    className="py-0 px-1"
                     onClick={function () {
                         dispatch(addCount(product.pid));
                     }}
@@ -32,7 +33,7 @@ export default function CartItem(props) {
                 </Button>
             </div>
             <Button disabled variant="outline-info">
-                Rs.{product.price * product.count}
+                Rs.{Math.round(product.price * (1 - product.discount / 100)) * product.count}
             </Button>
             <Button
                 onClick={function () {

@@ -43,12 +43,10 @@ export default function CheckOut(props) {
                         onClick={function () {
                             let order = {
                                 id: orderId + 1001,
-                                items: {
-                                    products: items.map((item) => ({
-                                        pid: item.pid,
-                                        count: item.count,
-                                    })),
-                                },
+                                products: items.map((item) => ({
+                                    product_id: item.pid,
+                                    count: item.count,
+                                })),
                                 address: address,
                                 status: "shipped",
                             };

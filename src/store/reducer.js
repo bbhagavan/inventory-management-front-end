@@ -27,23 +27,23 @@ export function reducer(state, action) {
                     return item;
                 }),
             };
-            if (flag == 1) return result;
+            if (flag === 1) return result;
             return {
                 ...state,
-                cartItems: [...state.cartItems, { item: action.payload, count: 1 }],
+                cartItems: [...state.cartItems, { ...action.payload, count: 1 }],
             };
 
         case "REMOVE-ITEM-CART":
             return {
                 ...state,
-                cartItems: state.cartItems.filter((item) => item.pid != action.payload.pid),
+                cartItems: state.cartItems.filter((item) => item.pid !== action.payload.pid),
             };
 
         case "ADD-COUNT":
             return {
                 ...state,
                 cartItems: state.cartItems.map((item) => {
-                    if (item.pid == action.payload) return { ...item, count: item.count + 1 };
+                    if (item.pid === action.payload) return { ...item, count: item.count + 1 };
                     else return item;
                 }),
             };

@@ -37,7 +37,9 @@ export default function NavigationBar() {
                 <Link to={"/cart"}>
                     <MenuItem className="position-absolute ml-n5 mt-n2">
                         <FontAwesomeIcon icon={faCartPlus} />
-                        <Count className="position-relative ml-3 mt-n4">{count}</Count>
+                        <Count id="count" className="position-relative ml-3 mt-n4">
+                            {count}
+                        </Count>
                     </MenuItem>
                 </Link>
             </>

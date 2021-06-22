@@ -6,15 +6,15 @@ import OrderDetailsView from "./OrderDetailsView";
 export default class OrderPage extends Component {
     constructor(props) {
         super(props);
-        this.item = props.item;
+        this.order = props.order;
         this.state = { details: [], cost: 0 };
     }
 
     componentDidMount() {
-        axios.get("http://localhost:8000/ordersdetails/" + this.item.id).then((respose) => {
+        axios.get("http://localhost:8000/ordersdetails/" + this.order.id).then((respose) => {
             let cost = 0;
             respose.data.map((prod) => {
-                cost += prod.price * prod.count;
+                cost += Math.round(prod.price * (1 - prod.discount / 100)) * prod.count;
             });
             this.setState((state) => ({
                 ...state,
@@ -26,16 +26,16 @@ export default class OrderPage extends Component {
 
     render() {
         return (
-            <Col sm={6} md={4} lg={3}>
+            <Col sm={6} md={4} lg={3} className="py-2">
                 <Card className="mx-2 p-1">
-                    <Card.Title>Order #{this.item.id}</Card.Title>
+                    <Card.Title>Order #{this.order.id}</Card.Title>
                     <Card.Text className="text-dark">
-                        Status: {this.item.status}
+                        Status: {this.order.status}
                         <br />
-                        Address: {this.item.address}
+                        Address: {this.order.address}
                     </Card.Text>
                     <hr />
-                    <p>Rs {this.state.cost}</p>
+                    <h3>Rs. {this.state.cost}</h3>
                     <OrderDetailsView details={this.state.details} cost={this.state.cost} />
                 </Card>
             </Col>
